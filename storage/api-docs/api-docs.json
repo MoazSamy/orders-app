@@ -1,0 +1,754 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel API Documentation",
+        "description": "Documentation for the Orders application",
+        "contact": {
+            "email": "moazsamy333@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api",
+            "description": "Demo API Server"
+        }
+    ],
+    "paths": {
+        "/users/register": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Register a new user",
+                "description": "Registers a new user in the database",
+                "operationId": "registerUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Failure"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Login as user",
+                "description": "Logs in as a user",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Unmatching credentials"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/users/logout": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Logout",
+                "description": "Logout from the system",
+                "operationId": "logoutUser",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Not logged in"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/orders": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get list of orders",
+                "description": "Returns list of orders",
+                "operationId": "getOrdersList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/orders/create": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Store order",
+                "description": "Store and return order",
+                "operationId": "storeOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreOrderRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order created"
+                    },
+                    "400": {
+                        "description": "Order creation failed"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get order information",
+                "description": "Returns order data",
+                "operationId": "getOrderById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Order id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Update existing order",
+                "description": "Returns updated order data",
+                "operationId": "updateOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Order id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateOrderRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Delete existing order",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Order id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/orders/assign/{orderId}/person/{deliveryPersonnelId}": {
+            "put": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "assign delivery personnel to an existing order",
+                "description": "Returns updated order data",
+                "operationId": "assignDeliveryPersonnel",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "description": "Order ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "deliveryPersonnelId",
+                        "in": "path",
+                        "description": "Delivery Personnel ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "orders/update/{orderId}/status/{orderStatus}": {
+            "put": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Update status of existing order",
+                "description": "Returns updated order data",
+                "operationId": "ChangeOrderStatus",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "description": "Order id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "orderStatus",
+                        "in": "path",
+                        "description": "Order Status",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "LoginUserRequest": {
+                "title": "Login User request",
+                "description": "Login User request body data",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "title": "User email",
+                        "description": "User email",
+                        "type": "string",
+                        "example": "moazsamy333@gmail.com"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "password",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Order": {
+                "title": "Order",
+                "description": "Order model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "customer_name": {
+                        "title": "Customer Name",
+                        "description": "Name of the customer of the new order",
+                        "type": "string",
+                        "example": "Moaz Samy"
+                    },
+                    "delivery_address": {
+                        "title": "Delivery Address",
+                        "description": "Delivery address of the customer",
+                        "type": "string",
+                        "example": "31 Teraa St - Mansoura"
+                    },
+                    "order_total": {
+                        "title": "Order Total",
+                        "description": "Order total price",
+                        "type": "decimal",
+                        "format": "decimal",
+                        "example": "20.00"
+                    },
+                    "order_status": {
+                        "title": "Order Status",
+                        "description": "Current status of the order",
+                        "type": "integer"
+                    },
+                    "delivery_personnel_id": {
+                        "title": "Delivery Personnel ID",
+                        "description": "Delivery Presonnel's id of the new order",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "delivery_personnel": {
+                        "$ref": "#/components/schemas/User"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Order"
+                }
+            },
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Username",
+                        "type": "string",
+                        "example": "Moaz"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "User email",
+                        "type": "string",
+                        "example": "moazsamy333@gmail.com"
+                    },
+                    "type": {
+                        "title": "User Type",
+                        "description": "User type. 0-Admin, 1-Delivery Personnel",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "Password",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "User"
+                }
+            },
+            "RegisterUserRequest": {
+                "title": "Register User request",
+                "description": "Register User request body data",
+                "required": [
+                    "email",
+                    "password",
+                    ""
+                ],
+                "properties": {
+                    "name": {
+                        "title": "User name",
+                        "description": "User name",
+                        "type": "string",
+                        "example": "Moaz"
+                    },
+                    "email": {
+                        "title": "User email",
+                        "description": "User email",
+                        "type": "string",
+                        "example": "moazsamy333@gmail.com"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "password",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "OrderResource": {
+                "title": "OrderResource",
+                "description": "Order resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Order"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "OrderResource"
+                }
+            },
+            "UserResource": {
+                "title": "UserResource",
+                "description": "User resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserResource"
+                }
+            },
+            "StoreOrderRequest": {
+                "title": "Store Order request",
+                "description": "Store Order request body data",
+                "required": [
+                    "customer_name",
+                    "delivery_address",
+                    "order_total"
+                ],
+                "properties": {
+                    "customer_name": {
+                        "title": "Customer Name",
+                        "description": "Name of the customer of the new order",
+                        "type": "string",
+                        "example": "Moaz Samy"
+                    },
+                    "delivery_address": {
+                        "title": "Delivery Address",
+                        "description": "Delivery address of the customer",
+                        "type": "string",
+                        "example": "31 Teraa St - Mansoura"
+                    },
+                    "order_total": {
+                        "title": "Order Total",
+                        "description": "Order total price",
+                        "type": "decimal",
+                        "format": "decimal",
+                        "example": "20.00"
+                    },
+                    "order_status": {
+                        "title": "Order Status",
+                        "description": "Current status of the order. 0- Pending, 1- In-progress, 2- Completed",
+                        "type": "integer"
+                    },
+                    "delivery_personnel_id": {
+                        "title": "Delivery Personnel ID",
+                        "description": "Delivery Presonnel's id of the new order",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateOrderRequest": {
+                "title": "Update Order request",
+                "description": "Update Order request body data",
+                "required": [
+                    "customer_name",
+                    "delivery_address",
+                    "order_total"
+                ],
+                "properties": {
+                    "customer_name": {
+                        "title": "Customer Name",
+                        "description": "Name of the customer of the new order",
+                        "type": "string",
+                        "example": "Moaz Samy"
+                    },
+                    "delivery_address": {
+                        "title": "Delivery Address",
+                        "description": "Delivery address of the customer",
+                        "type": "string",
+                        "example": "31 Teraa St - Mansoura"
+                    },
+                    "order_total": {
+                        "title": "Order Total",
+                        "description": "Order total price",
+                        "type": "decimal",
+                        "format": "decimal",
+                        "example": "20.00"
+                    },
+                    "order_status": {
+                        "title": "Order Status",
+                        "description": "Current status of the order"
+                    },
+                    "delivery_personnel_id": {
+                        "title": "Delivery Personnel ID",
+                        "description": "Delivery Presonnel's id of the new order",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearer_token": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "Enter token in from (bearer token)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Orders",
+            "description": "API Endpoints of Orders"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}
